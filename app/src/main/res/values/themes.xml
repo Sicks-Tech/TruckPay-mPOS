@@ -7,6 +7,9 @@
          <item name="colorSecondary">@color/laranja_secundario</item>
          <item name="bottomAppBarStyle">@style/BottomAppBarStyle</item>
 
+        <item name="android:navigationBarColor">@color/laranja_fundo</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
     </style>
 
 

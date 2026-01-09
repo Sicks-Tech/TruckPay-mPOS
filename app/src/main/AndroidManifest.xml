@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SicksTech">
         <activity
+            android:name=".features.welcome.WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".core.navigation.BottomBarActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
