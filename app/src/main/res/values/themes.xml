@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SicksTech" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/laranja_primario</item>
+         <item name="colorSecondary">@color/laranja_secundario</item>
+         <item name="bottomAppBarStyle">@style/BottomAppBarStyle</item>
+
+    </style>
+
+
+    <style name="Theme.SicksTech" parent="Base.Theme.SicksTech" />
+
+    <style name="BottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">@color/laranja_fundo</item>
+    </style>
+</resources>
