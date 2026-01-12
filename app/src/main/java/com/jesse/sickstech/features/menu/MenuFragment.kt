@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.jesse.sickstech.R
+import com.jesse.sickstech.databinding.FragmentMenuBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +21,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class MenuFragment : Fragment() {
+    private var _binding: FragmentMenuBinding? = null
+    private val binding get() = _binding!!
+    private val menuAdapter = MenuAdapter()
 
 
     // TODO: Rename and change types of parameters
@@ -31,15 +36,37 @@ class MenuFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu, container, false)
+    ): View {
+        _binding = FragmentMenuBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        //dados temporarios , apenas pra vizualização da recycler
+        val lista = mutableListOf<Menu>(
+            Menu(R.drawable.hamburguer, "Hamburguer Super Truck", "R$ 30,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Super Super Truck", "R$ 40,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
+            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
+        )
+
+        menuAdapter.atualizarListaDados(lista)
+
+        binding.recyclerMenu.adapter = menuAdapter
+        binding.recyclerMenu.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
     }
 
     companion object {
