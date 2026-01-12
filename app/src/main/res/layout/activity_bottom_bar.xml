@@ -10,7 +10,9 @@
 
     <!-- Conteúdo variável -->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/contentContainer"
+        android:id="@+id/nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,15 +22,15 @@
 
     </androidx.fragment.app.FragmentContainerView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_margin="22dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_cart" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/floatingActionButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:clickable="true"-->
+<!--        android:layout_margin="22dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_cart" />-->
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

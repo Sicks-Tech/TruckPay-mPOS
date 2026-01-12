@@ -2,22 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/itemHome"
+        android:id="@+id/menuFragment"
         android:icon="@drawable/ic_menu_home"
         android:title="Home"
         />
 
     <item
-        android:id="@+id/itemVendas"
+        android:id="@+id/vendasFragment"
         android:icon="@drawable/ic_card"
         android:title="Vendas"
         />
 
     <item
-        android:id="@+id/itemSettings"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="Config"
         />
-
 
 </menu>
