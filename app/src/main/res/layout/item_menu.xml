@@ -4,30 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="6dp"
     android:clickable="true">
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
-        android:layout_height="220dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/branco_fundo_card"
         app:cardCornerRadius="12dp"
+        android:padding="8dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/borda_cinza"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_width="185dp"
+                android:layout_height="130dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/hamburguer"
+                android:background="@null"
+                app:layout_constraintDimensionRatio="1:0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,10 +41,12 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:text="Hamburguer Super Truck"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -53,13 +61,13 @@
                 android:text="R$ 30,00"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
