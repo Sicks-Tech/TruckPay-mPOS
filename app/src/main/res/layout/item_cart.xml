@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="12dp"
+    >
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="@color/branco_fundo_card"
+        app:cardCornerRadius="12dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/borda_cinza"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:paddingVertical="5dp"
+            >
+
+<!--            lado direito-->
+            <TextView
+                android:id="@+id/textViewNumberItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="1"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/textViewProdutoCodigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/textViewNumberItem"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="7892840800567"
+                android:textSize="16sp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/textViewPrecoUnitario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/textViewNumberItem"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="1.0UN X R$ 30,00"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="4dp"
+                />
+
+<!--                lado esquerdo-->
+            <ImageButton
+                android:id="@+id/imageButtonMore"
+                android:layout_width="10dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/ic_more"
+                android:background="?backgroundInsetBottom"
+                android:contentDescription="mais opções"
+                />
+
+            <TextView
+                android:id="@+id/textViewProdutoNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/imageButtonMore"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Hamburguer Super Truck"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginEnd="5dp"
+                />
+
+
+            <TextView
+                android:id="@+id/textViewPrecoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$30,00"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonMore"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textViewPrecoDesconto" />
+
+            <TextView
+                android:id="@+id/textViewPrecoDesconto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-R$0,00"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewPrecoTotal"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="+R$0,00"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewPrecoDesconto"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/textViewPrecoUnitario" />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
