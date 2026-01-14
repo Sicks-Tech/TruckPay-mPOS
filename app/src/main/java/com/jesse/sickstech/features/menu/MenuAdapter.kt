@@ -2,22 +2,17 @@ package com.jesse.sickstech.features.menu
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.jesse.sickstech.databinding.ItemMenuBinding
 
-class MenuAdapter() : Adapter<MenuAdapter.MenuViewHolder>() {
+class MenuAdapter : Adapter<MenuAdapter.MenuViewHolder>() {
     private var menuList = listOf<Menu>()
 
-
     fun atualizarListaDados(list : MutableList<Menu>){
-//        listaMensagens.addAll(list)
         menuList = list
-
-//        notifyDataSetChanged()
-        // a questão do notify é que ele atualiza todo o conjunto de dados e não apenas o dados que foi att
+        notifyDataSetChanged() // não performatico , mas aceitavel , pra listar pequenas , que por hora é mock
     }
 
     inner class MenuViewHolder(val binding: ItemMenuBinding) :

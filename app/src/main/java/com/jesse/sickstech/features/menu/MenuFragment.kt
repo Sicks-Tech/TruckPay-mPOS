@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.jesse.sickstech.R
+import com.jesse.sickstech.data.repository.menu.MenuRepository
 import com.jesse.sickstech.databinding.FragmentMenuBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +25,8 @@ class MenuFragment : Fragment() {
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
     private val menuAdapter = MenuAdapter()
+    val menuRepository = MenuRepository()
+
 
 
     // TODO: Rename and change types of parameters
@@ -49,24 +52,10 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        //dados temporarios , apenas pra vizualização da recycler
-        val lista = mutableListOf<Menu>(
-            Menu(R.drawable.hamburguer, "Hamburguer Super Truck", "R$ 30,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Super Super Truck", "R$ 40,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
-            Menu(R.drawable.hamburguer, "Hamburguer Smash", "R$ 20,00"),
-        )
-
-        menuAdapter.atualizarListaDados(lista)
+        menuAdapter.atualizarListaDados(menuRepository.getMenu().toMutableList())
 
         binding.recyclerMenu.adapter = menuAdapter
         binding.recyclerMenu.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
     }
 
     companion object {
