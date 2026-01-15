@@ -6,14 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jesse.sickstech.R
 import com.jesse.sickstech.core.util.setupToolbar
+import com.jesse.sickstech.data.repository.cart.CartRepository
 import com.jesse.sickstech.databinding.ActivityCartBinding
 
 class CartActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityCartBinding.inflate(layoutInflater)
     }
+    private val cartAdapter = CartAdapter()
+    private val cartRepository = CartRepository()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,5 +36,11 @@ class CartActivity : AppCompatActivity() {
             showKeyboard = true,
             onBack = {binding.root.findNavController().popBackStack()}
         )
+
+        cartAdapter.atualizarListaDados(cartRepository.getCardItens())
+
+        binding.cartRecyclerView.adapter = cartAdapter
+        binding.cartRecyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 }

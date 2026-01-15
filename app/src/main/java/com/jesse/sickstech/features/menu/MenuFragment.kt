@@ -52,7 +52,7 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        menuAdapter.atualizarListaDados(menuRepository.getMenu().toMutableList())
+        menuAdapter.atualizarListaDados(menuRepository.getMenu())
 
         binding.recyclerMenu.adapter = menuAdapter
         binding.recyclerMenu.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

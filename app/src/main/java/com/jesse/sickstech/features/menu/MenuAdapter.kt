@@ -10,7 +10,7 @@ import com.jesse.sickstech.databinding.ItemMenuBinding
 class MenuAdapter : Adapter<MenuAdapter.MenuViewHolder>() {
     private var menuList = listOf<Menu>()
 
-    fun atualizarListaDados(list : MutableList<Menu>){
+    fun atualizarListaDados(list :List<Menu>){
         menuList = list
         notifyDataSetChanged() // não performatico , mas aceitavel , pra listar pequenas , que por hora é mock
     }
