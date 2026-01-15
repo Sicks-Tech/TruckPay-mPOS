@@ -42,7 +42,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardDebito"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="28dp"
         app:cardBackgroundColor="@color/branco_fundo_card"
@@ -86,7 +86,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardCredito"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="28dp"
         app:cardBackgroundColor="@color/branco_fundo_card"
@@ -131,7 +131,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardVoucher"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="28dp"
         app:cardBackgroundColor="@color/branco_fundo_card"
@@ -176,7 +176,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardPix"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="28dp"
         app:cardBackgroundColor="@color/branco_fundo_card"

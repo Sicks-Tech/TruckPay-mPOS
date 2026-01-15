@@ -28,7 +28,7 @@ class PaymentActivity : AppCompatActivity() {
         with(binding){
             includeToolbar.setupToolbar(
                 title = "Pagamento",
-                showKeyboard = true,
+                showKeyboard = false,
                 onBack = {root.findNavController().popBackStack()}
             )
         }
