@@ -11,15 +11,71 @@
         android:id="@+id/includeToolbar"
         layout="@layout/view_toolbar" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTotal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:itemCount="2"
         tools:listitem="@layout/item_cart" />
+
+    <TextView
+        android:id="@+id/textViewTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="Total R$:"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewValor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewValor" />
+
+    <TextView
+        android:id="@id/textViewValor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonFinalizar"
+        android:text="R$120,00"
+        android:textSize="22sp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="16dp"
+        />
+
+    <ImageButton
+        android:id="@+id/buttonExcluir"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_rounded_red"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonFinalizar"
+        app:layout_constraintStart_toStartOf="@id/textViewTotal"
+        app:layout_constraintTop_toTopOf="@+id/buttonFinalizar"
+        app:tint="@color/white" />
+
+    <Button
+        android:id="@+id/buttonFinalizar"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="160dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="10dp"
+        android:text="Finalizar"
+        android:textSize="17sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewValor" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
