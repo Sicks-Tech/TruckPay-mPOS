@@ -12,8 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SicksTech">
         <activity
-            android:name=".features.cart.CartActivity"
-            android:exported="true">
+            android:name=".features.payment.PaymentActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,16 +21,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".features.cart.CartActivity"
+            android:exported="true"/>
+        <activity
             android:name=".features.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".core.navigation.BottomBarActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".features.welcome.WelcomeActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>
