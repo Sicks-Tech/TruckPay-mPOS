@@ -29,8 +29,12 @@ class PaymentProcessActivity : AppCompatActivity() {
             includeToolbar.setupToolbar(
                 title = "Pagamento",
                 showKeyboard = false,
-                onBack = {root.findNavController().popBackStack()}
+                onBack = {finish()}
             )
+
+            buttonVoltar.setOnClickListener {
+                finish()
+            }
         }
     }
 }

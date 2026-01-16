@@ -71,6 +71,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <Button
+        android:id="@+id/buttonVoltar"
         android:layout_width="140dp"
         android:layout_height="55dp"
         android:layout_margin="20dp"

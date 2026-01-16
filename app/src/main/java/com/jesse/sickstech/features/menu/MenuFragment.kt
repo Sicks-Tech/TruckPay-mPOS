@@ -1,5 +1,6 @@
 package com.jesse.sickstech.features.menu
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.jesse.sickstech.R
 import com.jesse.sickstech.data.repository.menu.MenuRepository
 import com.jesse.sickstech.databinding.FragmentMenuBinding
+import com.jesse.sickstech.features.cart.CartActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +61,12 @@ class MenuFragment : Fragment() {
 
         binding.recyclerMenu.adapter = menuAdapter
         binding.recyclerMenu.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+
+        binding.floatingActionButton.setOnClickListener {
+            val intent = Intent(requireContext(), CartActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 

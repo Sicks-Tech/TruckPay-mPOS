@@ -1,5 +1,6 @@
 package com.jesse.sickstech.features.cart
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.jesse.sickstech.R
 import com.jesse.sickstech.core.util.setupToolbar
 import com.jesse.sickstech.data.repository.cart.CartRepository
 import com.jesse.sickstech.databinding.ActivityCartBinding
+import com.jesse.sickstech.features.payment.PaymentActivity
 
 class CartActivity : AppCompatActivity() {
     val binding by lazy {
@@ -35,8 +37,13 @@ class CartActivity : AppCompatActivity() {
             includeToolbar.setupToolbar(
                 title = "Carrinho",
                 showKeyboard = true,
-                onBack = {root.findNavController().popBackStack()}
+                onBack = {finish()}
             )
+
+            buttonFinalizar.setOnClickListener {
+                val intent = Intent(this@CartActivity, PaymentActivity::class.java)
+                startActivity(intent)
+            }
 
             cartAdapter.atualizarListaDados(cartRepository.getCardItens())
 

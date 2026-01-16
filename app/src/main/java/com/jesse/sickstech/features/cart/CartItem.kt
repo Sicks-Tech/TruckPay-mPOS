@@ -1,6 +1,6 @@
 package com.jesse.sickstech.features.cart
 
-data class Cart(
+data class CartItem(
     val id: Int,
     val codigo: String,
     val nome: String,

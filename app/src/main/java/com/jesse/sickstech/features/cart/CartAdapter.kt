@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.jesse.sickstech.databinding.ItemCartBinding
 
 class CartAdapter : Adapter<CartAdapter.CartViewHolder>() {
-    private var cartList = listOf<Cart>()
+    private var cartItemList = listOf<CartItem>()
 
-    fun atualizarListaDados(list: List<Cart>){
-        cartList = list
+    fun atualizarListaDados(list: List<CartItem>){
+        cartItemList = list
         notifyDataSetChanged()
     }
 
@@ -38,7 +38,7 @@ class CartAdapter : Adapter<CartAdapter.CartViewHolder>() {
         holder: CartViewHolder,
         position: Int
     ) {
-        val cart = cartList[position]
+        val cart = cartItemList[position]
         holder.binding.textViewNumberItem.text = cart.id.toString()
         holder.binding.textViewProdutoCodigo.text = cart.codigo
         holder.binding.textViewProdutoNome.text = cart.nome
@@ -48,7 +48,7 @@ class CartAdapter : Adapter<CartAdapter.CartViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-      return cartList.size
+      return cartItemList.size
     }
 
 
