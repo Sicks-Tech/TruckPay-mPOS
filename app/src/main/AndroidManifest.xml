@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SicksTech">
         <activity
-            android:name=".features.payment.PaymentActivity"
+            android:name=".features.confirmation.ConfirmationActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,14 +21,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".features.paymentProcess.PaymentProcessActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".features.payment.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".features.cart.CartActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".features.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".core.navigation.BottomBarActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".features.welcome.WelcomeActivity"
             android:exported="true" />
