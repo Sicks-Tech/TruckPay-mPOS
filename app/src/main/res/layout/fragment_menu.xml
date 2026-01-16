@@ -30,6 +30,7 @@
         android:clickable="true"
         android:layout_margin="26dp"
         android:src="@drawable/ic_cart"
+        app:shapeAppearanceOverlay="@style/FabExtendedRounded"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

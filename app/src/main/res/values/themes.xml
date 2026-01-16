@@ -12,10 +12,16 @@
 
     </style>
 
-
     <style name="Theme.SicksTech" parent="Base.Theme.SicksTech" />
 
     <style name="BottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
         <item name="backgroundTint">@color/laranja_fundo</item>
     </style>
+
+    <style name="FabExtendedRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+
 </resources>

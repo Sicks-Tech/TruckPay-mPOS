@@ -26,8 +26,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         viewModel.loginSuccess.observe(this) {
-            startActivity(Intent(this, BottomBarActivity::class.java))
-            finish()
+            val intent = Intent(this, BottomBarActivity::class.java).apply {
+                // essas flags , basicamente dizem que a activity que vai abrir é a root , impedindo a ação de voltar pra tela anterior
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
         }
 
         viewModel.loginError.observe(this) { message ->

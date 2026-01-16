@@ -1,11 +1,10 @@
 package com.jesse.sickstech.core.navigation
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.jesse.sickstech.R
@@ -30,5 +29,11 @@ class BottomBarActivity : AppCompatActivity() {
             ?: throw IllegalStateException("NavHostFragment não encontrado no layout com id R.id.nav_host")
         val navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
+
+        onBackPressedDispatcher.addCallback(this) {
+           finish()
+        }
+
     }
+
 }
