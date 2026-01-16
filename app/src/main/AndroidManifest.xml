@@ -13,13 +13,7 @@
         android:theme="@style/Theme.SicksTech">
         <activity
             android:name=".features.confirmation.ConfirmationActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".features.paymentProcess.PaymentProcessActivity"
             android:exported="true">
@@ -39,7 +33,13 @@
             android:exported="true" />
         <activity
             android:name=".features.welcome.WelcomeActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
