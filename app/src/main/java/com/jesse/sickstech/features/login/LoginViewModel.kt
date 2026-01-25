@@ -7,26 +7,21 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
 
-    private val _loginSuccess = MutableLiveData<Unit>()
-    val loginSuccess: LiveData<Unit> = _loginSuccess
+    private val _state = MutableLiveData<LoginState>(LoginState.Idle)
+    val state: LiveData<LoginState> = _state
 
 
-    private val _loginError = MutableLiveData<String>()
-    val loginError: LiveData<String> = _loginError
 
     fun login(pin: String) {
-        when {
+        when{
             pin.isBlank() ->
-                _loginError.value = "Informe o PIN"
-
+                _state.value = LoginState.Error("Informe o PIN")
             pin.length != 6 ->
-                _loginError.value = "PIN deve ter 6 dígitos"
-
+                _state.value = LoginState.Error("O PIN deve conter 6 dígitos")
             pin == "123456" ->
-                _loginSuccess.value = Unit
-
+                _state.value = LoginState.Success
             else ->
-                _loginError.value = "PIN incorreto"
+                _state.value = LoginState.Error("PIN incorreto")
         }
     }
 }
