@@ -57,11 +57,13 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        menuAdapter.atualizarListaDados(menuRepository.getMenu())
+        binding.recyclerMenu.apply{
+            binding.recyclerMenu.adapter = menuAdapter
+            binding.recyclerMenu.layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        }
 
-        binding.recyclerMenu.adapter = menuAdapter
-        binding.recyclerMenu.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
+        menuAdapter.submitList(menuRepository.getMenu())
 
         binding.floatingActionButton.setOnClickListener {
             val intent = Intent(requireContext(), CartActivity::class.java)
