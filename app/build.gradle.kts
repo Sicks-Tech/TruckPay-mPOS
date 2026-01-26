@@ -45,6 +45,8 @@ dependencies {
 //    coil
     implementation(libs.coil.kt.coil)
 
+    implementation(libs.androidx.security.crypto)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

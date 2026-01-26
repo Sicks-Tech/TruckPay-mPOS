@@ -9,13 +9,19 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.jesse.sickstech.R
 import com.jesse.sickstech.core.navigation.BottomBarActivity
+import com.jesse.sickstech.core.security.PinHasher
+import com.jesse.sickstech.core.security.PinValidator
+import com.jesse.sickstech.core.session.SessionManager
+import com.jesse.sickstech.core.session.SessionStorage
 import com.jesse.sickstech.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
-    private val viewModel : LoginViewModel by viewModels()
+    private val viewModel : LoginViewModel by viewModels {
+        LoginViewModelFactory(applicationContext)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +46,6 @@ class LoginActivity : AppCompatActivity() {
                }
                is LoginState.Error -> {
                    Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
-               }
-               else -> {
-                   Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                }
            }
        }

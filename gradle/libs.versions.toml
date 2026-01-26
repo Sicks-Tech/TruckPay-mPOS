@@ -14,9 +14,11 @@ constraintlayout = "2.2.1"
 navigationFragmentKtx = "2.9.6"
 navigationUiKtx = "2.9.6"
 recyclerview = "1.4.0"
+securityCrypto = "1.1.0-alpha06"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-kt-coil = { module = "io.coil-kt:coil", version.ref = "coilVersion" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
