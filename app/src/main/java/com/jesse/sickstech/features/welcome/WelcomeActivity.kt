@@ -7,12 +7,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.jesse.sickstech.R
+import com.jesse.sickstech.core.navigation.BottomBarActivity
+import com.jesse.sickstech.core.session.SessionManager
+import com.jesse.sickstech.core.session.SessionStorage
 import com.jesse.sickstech.databinding.ActivityWelcomeBinding
 import com.jesse.sickstech.features.login.LoginActivity
+
 
 class WelcomeActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityWelcomeBinding.inflate(layoutInflater)
+    }
+
+    private val sessionManager by lazy {
+        SessionManager(
+            SessionStorage(applicationContext)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,12 +35,26 @@ class WelcomeActivity : AppCompatActivity() {
         }
 
 
-        with(binding){
+        with(binding) {
             button.setOnClickListener {
-                val intent = Intent(this@WelcomeActivity, LoginActivity::class.java)
-                startActivity(intent)
+                decideNavigation()
             }
         }
 
+    }
+
+    private fun decideNavigation() {
+        val nextActivity = if (sessionManager.isSessionValid()) {
+            BottomBarActivity::class.java
+        } else {
+            LoginActivity::class.java
+        }
+
+        startActivity(
+            Intent(this, nextActivity).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        )
     }
 }
