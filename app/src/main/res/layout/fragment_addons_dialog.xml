@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".features.menu.addons.AddonsDialogFragment">
+
+    <include
+        android:id="@+id/includeToolbar"
+        layout="@layout/view_toolbar"
+        />
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hamburguer SuperTruck"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/includeToolbar" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addonsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="530dp"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        tools:itemCount="4"
+        tools:listitem="@layout/addons_item" />
+
+    <TextView
+        android:id="@+id/textViewTotalTitle"
+        android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:text="Total R$: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textViewAddonsTitle"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textFontWeight="600"
+        />
+
+
+    <TextView
+        android:id="@+id/textViewTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="37,00"
+        android:textAlignment="viewStart"
+        android:textColor="@color/laranja_primario"
+        android:textFontWeight="600"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTotalTitle"
+        app:layout_constraintEnd_toStartOf="@+id/btnAdicionar"
+        app:layout_constraintStart_toEndOf="@+id/textViewTotalTitle"
+        app:layout_constraintTop_toTopOf="@+id/textViewTotalTitle" />
+
+    <TextView
+        android:id="@+id/textViewAddonsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicionais R$: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textFontWeight="600"
+        />
+
+    <TextView
+        android:id="@+id/textViewAddonsTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:textColor="@color/laranja_primario"
+        android:fontFamily="@font/poppins_semibold"
+        android:textFontWeight="600"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAddonsTitle"
+        app:layout_constraintStart_toEndOf="@id/textViewAddonsTitle"
+        app:layout_constraintTop_toTopOf="@+id/textViewAddonsTitle" />
+
+
+    <Button
+        android:id="@+id/btnAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Adicionar"
+        android:textFontWeight="500"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

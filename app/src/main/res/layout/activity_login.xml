@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".features.login.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_orange"
+        android:orientation="vertical"
+        app:circularflow_angles="20dp"
+        android:paddingVertical="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="32sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textFontWeight="500"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="50dp"
+            android:hint="Insira seu pin"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxStrokeWidth="0dp"
+            app:hintAnimationEnabled="true"
+            app:hintTextColor="@color/black"
+            app:passwordToggleDrawable="@drawable/ic_visibility"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black"
+            app:passwordToggleTintMode="src_in">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="130dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/ic_arrow_ir"
+            android:text="Entrar"
+            android:layout_marginTop="36dp"
+            android:textColor="@color/black"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
