@@ -44,9 +44,6 @@ class CartActivity : AppCompatActivity() {
             insets
         }
 
-//
-
-
 
         with(binding){
 
