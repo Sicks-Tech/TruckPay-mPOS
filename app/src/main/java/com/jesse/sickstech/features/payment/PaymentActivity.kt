@@ -7,15 +7,27 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.jesse.sickstech.R
+import com.jesse.sickstech.core.util.CurrencyFormatter
 import com.jesse.sickstech.core.util.setupToolbar
+import com.jesse.sickstech.data.repository.OrderRepository
 import com.jesse.sickstech.databinding.ActivityPaymentBinding
+import com.jesse.sickstech.features.cart.CartViewModel
 import com.jesse.sickstech.features.paymentProcess.PaymentProcessActivity
+import kotlinx.coroutines.launch
 
 class PaymentActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityPaymentBinding.inflate(layoutInflater)
+    }
+
+    private val viewModel: PaymentViewModel by lazy {
+        val repository = OrderRepository.getInstance(this)
+        PaymentViewModel(repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +49,14 @@ class PaymentActivity : AppCompatActivity() {
 
             buttonVoltar.setOnClickListener {
                 finish()
+            }
+
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.cartTotal.collect { total ->
+                      textViewTotalValor.text = CurrencyFormatter.format(total)
+                    }
+                }
             }
 
             val cards = listOf(cardDebito, cardCredito,cardVoucher, cardPix)

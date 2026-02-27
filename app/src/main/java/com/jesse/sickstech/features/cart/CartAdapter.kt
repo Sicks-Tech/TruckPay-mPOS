@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.jesse.sickstech.core.util.CurrencyFormatter
 import com.jesse.sickstech.databinding.ItemCartBinding
 import com.jesse.sickstech.domain.model.CartItem
 
@@ -46,22 +47,22 @@ class CartAdapter : Adapter<CartAdapter.CartViewHolder>() {
             textViewProdutoCodigo.text = cart.productCode
             textViewProdutoNome.text = cart.productName
 
-            textViewPrecoUnitario.text = "R$ ${cart.productPrice}"
+            textViewPrecoUnitario.text = CurrencyFormatter.format(cart.productPrice)
 
 
             if (cart.selectedAddons.isNotEmpty()) {
                 val totalAddons = cart.selectedAddons.sumOf {
                     it.addon.price.multiply(it.quantity.toBigDecimal())
                 }
-                textViewPrecoAdd.text = "+R$$totalAddons"
+                textViewPrecoAdd.text = "+${CurrencyFormatter.format(totalAddons)}"
             } else {
-                textViewPrecoAdd.text = "R$0,00"
+                textViewPrecoAdd.text = "+R$ 0,00"
             }
 
             Log.d("CartAdapter", "Itens no carrinho: ${cart.selectedAddons}")
 
             val totalItem = "${cart.totalWithAddons}"
-            textViewPrecoTotal.text = "R$ $totalItem"
+            textViewPrecoTotal.text = CurrencyFormatter.format(totalItem.toBigDecimal())
 
         }
     }

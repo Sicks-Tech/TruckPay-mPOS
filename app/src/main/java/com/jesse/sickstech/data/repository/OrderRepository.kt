@@ -12,6 +12,7 @@ import com.jesse.sickstech.domain.model.CartItemWithProduct
 import com.jesse.sickstech.domain.model.SelectedAddon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.math.BigDecimal
 
 /*
 deve lhe dar com order/orderItem/payment/transaction
@@ -105,6 +106,20 @@ class OrderRepository private constructor(context: Context) {
             }
         }
     }
+
+    // Dentro do OrderRepository
+    fun getCartTotal(accountId: Int): Flow<BigDecimal> {
+        return getCartItems(accountId).map { items ->
+            items.sumOf { item ->
+                val productTotal = item.productPrice.multiply(item.quantity.toBigDecimal())
+                val addonsTotal = item.selectedAddons.sumOf { addon ->
+                    addon.addon.price.multiply(addon.quantity.toBigDecimal())
+                }
+                productTotal.add(addonsTotal)
+            }
+        }
+    }
+
 
     // No OrderRepository
     suspend fun saveFullCartItem(accountId: Int, state: AddonsState) {
