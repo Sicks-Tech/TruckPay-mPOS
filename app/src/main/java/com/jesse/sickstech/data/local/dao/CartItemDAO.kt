@@ -60,4 +60,8 @@ interface CartItemDAO {
     @Transaction
     @Query("SELECT * FROM CartItem WHERE account_id = :accountId")
     fun getCartFullDetails(accountId: Int): Flow<List<CartItemFullRelation>>
+
+    @Transaction
+    @Query("SELECT * FROM CartItem WHERE account_id = :accountId")
+    suspend fun getCartFullDetailsList(accountId: Int): List<CartItemFullRelation> // Retorna LIST, não Flow!
 }

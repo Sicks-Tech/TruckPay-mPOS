@@ -42,5 +42,5 @@ data class OrderItemAddonEntity(
     val quantity: Int = 1,
 
     @ColumnInfo(name = "price_delta_cents")
-    val priceDeltaCents: Int = 0
+    val priceDeltaCents: Int
 )

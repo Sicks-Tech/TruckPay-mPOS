@@ -32,7 +32,7 @@
          app:layout_constraintTop_toTopOf="@id/textViewSelecionado"
         app:layout_constraintBottom_toBottomOf="@id/textViewSelecionado"
         app:layout_constraintStart_toEndOf="@id/textViewSelecionado"
-        android:text=" Debito"
+        android:text=" "
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_semibold"
         android:textFontWeight="600"
@@ -61,7 +61,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Transação Aprovada"
+                android:text="Processando Pagamento"
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/poppins_medium"

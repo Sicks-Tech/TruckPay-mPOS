@@ -15,7 +15,7 @@ interface OrderItemDAO {
     // --- Escrita ---
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrderItem(orderItem: OrderItemEntity)
+    suspend fun insertOrderItem(orderItem: OrderItemEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrderItems(orderItems: List<OrderItemEntity>)

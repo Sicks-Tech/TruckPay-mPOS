@@ -1,14 +1,18 @@
 package com.jesse.sickstech.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.room.withTransaction
 import com.jesse.sickstech.data.AppDataBase
 import com.jesse.sickstech.data.local.entity.CartItemAddonsEntity
 import com.jesse.sickstech.data.local.entity.CartItemEntity
+import com.jesse.sickstech.data.local.entity.OrderEntity
+import com.jesse.sickstech.data.local.entity.OrderItemAddonEntity
+import com.jesse.sickstech.data.local.entity.OrderItemEntity
+import com.jesse.sickstech.domain.enums.OrderStatus
 import com.jesse.sickstech.domain.model.Addon
 import com.jesse.sickstech.domain.model.AddonsState
 import com.jesse.sickstech.domain.model.CartItem
-import com.jesse.sickstech.domain.model.CartItemWithProduct
 import com.jesse.sickstech.domain.model.SelectedAddon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -107,7 +111,7 @@ class OrderRepository private constructor(context: Context) {
         }
     }
 
-    // Dentro do OrderRepository
+
     fun getCartTotal(accountId: Int): Flow<BigDecimal> {
         return getCartItems(accountId).map { items ->
             items.sumOf { item ->
@@ -121,11 +125,53 @@ class OrderRepository private constructor(context: Context) {
     }
 
 
-    // No OrderRepository
+    suspend fun createOrderFromCart(accountId: Int, storeId: Int, total: BigDecimal): Int {
+        return database.withTransaction {
+            //Cria a Ordem
+            val orderEntity = OrderEntity(
+                storeId = storeId,
+                accountId = accountId,
+                totalCents = total.multiply(BigDecimal(100)).toInt(),
+                status = OrderStatus.OPEN,
+                createdAt = System.currentTimeMillis()
+            )
+            val orderId = database.orderDAO().insert(orderEntity).toInt()
+
+            val cartItemsList = cartItem.getCartFullDetailsList(accountId)
+
+            Log.d("OrderRepo", "Processando $orderId: Encontrados ${cartItemsList.size} itens no carrinho")
+
+            cartItemsList.forEach { full ->
+                val orderItem = OrderItemEntity(
+                    orderId = orderId,
+                    productId = full.cartItemWithProduct.cartItem.productId,
+                    quantity = full.cartItemWithProduct.cartItem.quantity,
+                    unitPriceCents = full.cartItemWithProduct.product.priceCents
+                )
+
+//                val orderItemId = database.orderItemDAO().insertOrderItem(orderItem).toInt()
+
+                full.addons.forEach { a ->
+                    val addonEntity = OrderItemAddonEntity(
+                        cartItemId = full.cartItemWithProduct.cartItem.cartItemId,
+                        addonId = a.addonDetails.addonId,
+                        quantity = a.relation.quantity,
+                        priceDeltaCents = a.addonDetails.priceCents
+                    )
+                    database.orderItemAddonDAO().insertAddonToItem(addonEntity)
+                }
+            }
+
+            cartItem.clearCart(accountId)
+           orderId
+        }
+    }
+
+
     suspend fun saveFullCartItem(accountId: Int, state: AddonsState) {
         // Usamos o withTransaction para garantir que se um falhar, nada é salvo (Atomicidade)
         database.withTransaction {
-            // 1. Criar e inserir o Item do Carrinho (ex: Hambúrguer)
+            //  Criar e inserir o Item do Carrinho
             val cartItemEntity = CartItemEntity(
                 accountId = accountId,
                 productId = state.productId,
@@ -133,46 +179,27 @@ class OrderRepository private constructor(context: Context) {
                 createdAt = System.currentTimeMillis()
             )
 
-            // O insert deve retornar o ID (Long) gerado pelo Room
             val cartItemId = database.cartItemDAO().insert(cartItemEntity)
 
-            // Se o insert falhou ou retornou erro (caso tenhas índices únicos), podes tratar aqui
             if (cartItemId != -1L) {
 
-                // 2. Filtrar apenas os adicionais que o utilizador realmente selecionou (qtd > 0)
+
                 val selectedAddons = state.addons.filter { it.quantity > 0 }
 
                 if (selectedAddons.isNotEmpty()) {
-                    // 3. Mapear os SelectedAddon para a Entidade do Banco
+                    //  Mapear os SelectedAddon para a Entidade do Banco
                     val addonsToSave = selectedAddons.map { selected ->
                         CartItemAddonsEntity(
-                            cartItemId = cartItemId, // ID que acabámos de criar acima
+                            cartItemId = cartItemId,
                             addonId = selected.addon.id,
                             quantity = selected.quantity
                         )
                     }
 
-                    // 4. Salvar todos os adicionais de uma vez
+                    //  Salvar todos os adicionais de uma vez
                     database.cartItemAddonsDAO().insertAll(addonsToSave)
                 }
             }
         }
     }
-}
-
-// Exemplo de como o Mapper ficaria no OrderRepository
-private fun mapToDomain(
-    itemDetailed: CartItemWithProduct,
-    selectedAddons: List<SelectedAddon>
-): CartItem {
-    return CartItem(
-        id = itemDetailed.cartItem.cartItemId,
-        productId = itemDetailed.cartItem.productId,
-        productName = itemDetailed.product.name,
-        productCode = itemDetailed.product.productCode,
-        productPrice = itemDetailed.product.priceCents.toBigDecimal().movePointLeft(2),
-        quantity = itemDetailed.cartItem.quantity,
-        selectedAddons = selectedAddons,
-        createdAt = itemDetailed.cartItem.createdAt
-    )
 }

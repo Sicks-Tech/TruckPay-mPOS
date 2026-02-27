@@ -19,7 +19,7 @@ import com.jesse.sickstech.features.paymentProcess.PaymentProcessActivity
 import kotlinx.coroutines.launch
 
 class PaymentActivity : AppCompatActivity() {
-    val binding by lazy { 
+    val binding by lazy {
         ActivityPaymentBinding.inflate(layoutInflater)
     }
 
@@ -64,7 +64,20 @@ class PaymentActivity : AppCompatActivity() {
                     cards.forEach { it.isChecked = false }
                     card.isChecked = true
                     Log.d("TAG", "onCreate: ${card.tag}")
-                    openProcessing()
+
+                    cards.forEach { it.isChecked = false }
+
+
+
+
+                    lifecycleScope.launch {
+                        val currentTotal = viewModel.cartTotal.value // pegar o valor atual do flow
+
+                        val orderId = viewModel.createOrder(accountId = 1, storeId = 1, total = currentTotal)
+
+                        openProcessing(card.tag.toString(), orderId)
+
+                    }
                 }
             }
 
@@ -72,8 +85,10 @@ class PaymentActivity : AppCompatActivity() {
         }
 
     }
-    fun openProcessing(){
+
+    fun openProcessing(type : String , orderId : Int){
         val intent = Intent(this, PaymentProcessActivity::class.java)
+        intent.putExtra("payment_method", type)
         startActivity(intent)
     }
 }
