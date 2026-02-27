@@ -17,11 +17,9 @@ import com.jesse.sickstech.R
 import com.jesse.sickstech.core.util.CurrencyFormatter
 import com.jesse.sickstech.core.util.setupToolbar
 import com.jesse.sickstech.data.repository.OrderRepository
-import com.jesse.sickstech.data.repository.ShopRepository
 import com.jesse.sickstech.databinding.ActivityCartBinding
 import com.jesse.sickstech.features.payment.PaymentActivity
 import kotlinx.coroutines.launch
-import okhttp3.internal.format
 
 class CartActivity : AppCompatActivity() {
     val binding by lazy {
