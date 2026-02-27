@@ -10,13 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import com.jesse.sickstech.R
 import com.jesse.sickstech.core.util.CurrencyFormatter
 import com.jesse.sickstech.core.util.setupToolbar
 import com.jesse.sickstech.data.repository.OrderRepository
 import com.jesse.sickstech.databinding.ActivityPaymentBinding
-import com.jesse.sickstech.features.cart.CartViewModel
 import com.jesse.sickstech.features.paymentProcess.PaymentProcessActivity
 import kotlinx.coroutines.launch
 
