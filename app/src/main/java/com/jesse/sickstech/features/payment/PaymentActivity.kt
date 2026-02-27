@@ -19,7 +19,7 @@ import com.jesse.sickstech.features.paymentProcess.PaymentProcessActivity
 import kotlinx.coroutines.launch
 
 class PaymentActivity : AppCompatActivity() {
-    val binding by lazy {
+    val binding by lazy { 
         ActivityPaymentBinding.inflate(layoutInflater)
     }
 
