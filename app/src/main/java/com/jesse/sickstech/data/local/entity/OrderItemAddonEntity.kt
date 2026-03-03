@@ -6,13 +6,14 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+
 @Entity(
-    tableName = "OrderItemAddon",
+    tableName = "order_item_addon",
     foreignKeys = [
         ForeignKey(
-            entity = CartItemEntity::class,
-            parentColumns = ["cart_item_id"],
-            childColumns = ["cart_item_id"],
+            entity = OrderItemEntity::class,
+            parentColumns = ["order_item_id"],
+            childColumns = ["order_item_id"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
@@ -23,23 +24,24 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [
-        Index(value = ["cart_item_id"]),
+        Index(value = ["order_item_id"]),
         Index(value = ["addon_id"])
     ]
 )
 data class OrderItemAddonEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "cart_item_addon_id")
-    val cartItemAddonId: Int = 0,
 
-    @ColumnInfo(name = "cart_item_id")
-    val cartItemId: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "order_item_addon_id")
+    val orderItemAddonId: Int = 0,
+
+    @ColumnInfo(name = "order_item_id")
+    val orderItemId: Int,
 
     @ColumnInfo(name = "addon_id")
-    val addonId: Int = 0,
+    val addonId: Int,
 
     @ColumnInfo(name = "quantity")
-    val quantity: Int = 1,
+    val quantity: Int,
 
     @ColumnInfo(name = "price_delta_cents")
     val priceDeltaCents: Int

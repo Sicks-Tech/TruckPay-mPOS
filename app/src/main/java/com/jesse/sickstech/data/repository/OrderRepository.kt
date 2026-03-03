@@ -13,6 +13,7 @@ import com.jesse.sickstech.domain.enums.OrderStatus
 import com.jesse.sickstech.domain.model.Addon
 import com.jesse.sickstech.domain.model.AddonsState
 import com.jesse.sickstech.domain.model.CartItem
+import com.jesse.sickstech.domain.model.CreateOrder
 import com.jesse.sickstech.domain.model.SelectedAddon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -125,9 +126,39 @@ class OrderRepository private constructor(context: Context) {
     }
 
 
-    suspend fun createOrderFromCart(accountId: Int, storeId: Int, total: BigDecimal): Int {
+    suspend fun createOrderFromCart(
+        accountId: Int,
+        storeId: Int
+    ): CreateOrder {
+
         return database.withTransaction {
-            //Cria a Ordem
+
+            val cartItemsList = cartItem.getCartFullDetailsList(accountId)
+
+            if (cartItemsList.isEmpty()) {
+                throw IllegalStateException("Carrinho vazio")
+            }
+
+            val total = cartItemsList.sumOf { full ->
+
+                val productTotal =
+                    full.cartItemWithProduct.product.priceCents
+                        .toBigDecimal()
+                        .movePointLeft(2)
+                        .multiply(
+                            full.cartItemWithProduct.cartItem.quantity.toBigDecimal()
+                        )
+
+                val addonsTotal = full.addons.sumOf { a ->
+                    a.addonDetails.priceCents
+                        .toBigDecimal()
+                        .movePointLeft(2)
+                        .multiply(a.relation.quantity.toBigDecimal())
+                }
+
+                productTotal.add(addonsTotal)
+            }
+
             val orderEntity = OrderEntity(
                 storeId = storeId,
                 accountId = accountId,
@@ -135,13 +166,13 @@ class OrderRepository private constructor(context: Context) {
                 status = OrderStatus.OPEN,
                 createdAt = System.currentTimeMillis()
             )
+
             val orderId = database.orderDAO().insert(orderEntity).toInt()
 
-            val cartItemsList = cartItem.getCartFullDetailsList(accountId)
-
-            Log.d("OrderRepo", "Processando $orderId: Encontrados ${cartItemsList.size} itens no carrinho")
+            Log.d("OrderRepo", "Processando $orderId: ${cartItemsList.size} itens")
 
             cartItemsList.forEach { full ->
+
                 val orderItem = OrderItemEntity(
                     orderId = orderId,
                     productId = full.cartItemWithProduct.cartItem.productId,
@@ -149,21 +180,28 @@ class OrderRepository private constructor(context: Context) {
                     unitPriceCents = full.cartItemWithProduct.product.priceCents
                 )
 
-//                val orderItemId = database.orderItemDAO().insertOrderItem(orderItem).toInt()
+                val orderItemId =
+                    database.orderItemDAO().insertOrderItem(orderItem).toInt()
 
                 full.addons.forEach { a ->
+
                     val addonEntity = OrderItemAddonEntity(
-                        cartItemId = full.cartItemWithProduct.cartItem.cartItemId,
+                        orderItemId = orderItemId,
                         addonId = a.addonDetails.addonId,
                         quantity = a.relation.quantity,
                         priceDeltaCents = a.addonDetails.priceCents
                     )
+
                     database.orderItemAddonDAO().insertAddonToItem(addonEntity)
                 }
             }
 
             cartItem.clearCart(accountId)
-           orderId
+
+            CreateOrder(
+                orderId = orderId,
+                total = total
+            )
         }
     }
 

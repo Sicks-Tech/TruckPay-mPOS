@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.jesse.sickstech.R
 import com.jesse.sickstech.core.util.CurrencyFormatter
 import com.jesse.sickstech.core.util.setupToolbar
+import com.jesse.sickstech.data.model.pos.OrderConfig
 import com.jesse.sickstech.data.repository.OrderRepository
 import com.jesse.sickstech.databinding.ActivityPaymentBinding
 import com.jesse.sickstech.features.paymentProcess.PaymentProcessActivity
@@ -62,7 +63,6 @@ class PaymentActivity : AppCompatActivity() {
             cards.forEach { card ->
                 card.setOnClickListener {
                     cards.forEach { it.isChecked = false }
-                    card.isChecked = true
                     Log.d("TAG", "onCreate: ${card.tag}")
 
                     cards.forEach { it.isChecked = false }
@@ -71,12 +71,19 @@ class PaymentActivity : AppCompatActivity() {
 
 
                     lifecycleScope.launch {
-                        val currentTotal = viewModel.cartTotal.value // pegar o valor atual do flow
+                        try {
 
-                        val orderId = viewModel.createOrder(accountId = 1, storeId = 1, total = currentTotal)
+                            val orderId = viewModel.pagar(
+                                accountId = 1,
+                                storeId = 1,
+                                paymentType = OrderConfig.DEBIT_CARD
+                            )
 
-                        openProcessing(card.tag.toString(), orderId)
+                            openProcessing(card.tag.toString(), orderId)
 
+                        } catch (e: Exception) {
+                            Log.e("Payment", "Erro ao pagar: ${e.message}")
+                        }
                     }
                 }
             }

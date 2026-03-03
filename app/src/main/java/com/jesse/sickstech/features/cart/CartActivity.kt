@@ -33,7 +33,6 @@ class CartActivity : AppCompatActivity() {
     }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,21 +44,30 @@ class CartActivity : AppCompatActivity() {
         }
 
 
-        with(binding){
+        with(binding) {
 
             includeToolbar.setupToolbar(
                 title = "Carrinho",
                 showKeyboard = true,
-                onBack = {finish()}
+                onBack = { finish() }
             )
 
             buttonExcluir.setOnClickListener {
+                if(viewModel.cartItems.value.isEmpty()){
+                    Toast.makeText(this@CartActivity, "Carrinho Vazio", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 val dialog = AlertDialog.Builder(this@CartActivity)
                     .setTitle("Limpar Carrinho")
                     .setMessage("Tem certeza que deseja limpar o carrinho?")
                     .setPositiveButton("Sim") { _, _ ->
                         viewModel.clearCart()
-                        Toast.makeText(this@CartActivity, "Carrinho Limpo com sucesso", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@CartActivity,
+                            "Carrinho Limpo com sucesso",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     .setNegativeButton("Não", null)
 
@@ -67,8 +75,13 @@ class CartActivity : AppCompatActivity() {
             }
 
             buttonFinalizar.setOnClickListener {
-                val intent = Intent(this@CartActivity, PaymentActivity::class.java)
-                startActivity(intent)
+                if (viewModel.cartItems.value.isEmpty()) {
+                    Toast.makeText(this@CartActivity, "Carrinho Vazio", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                } else {
+                    val intent = Intent(this@CartActivity, PaymentActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
             cartRecyclerView.adapter = cartAdapter

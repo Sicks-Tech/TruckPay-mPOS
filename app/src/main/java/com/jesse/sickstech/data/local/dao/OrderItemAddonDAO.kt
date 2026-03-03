@@ -21,33 +21,35 @@ interface OrderItemAddonDAO {
     @Delete
     suspend fun deleteAddonFromItem(orderItemAddon: OrderItemAddonEntity)
 
-    // --- Consultas (Leitura) ---
+    // --- Consultas ---
 
     /**
-     * Busca todos os adicionais de um item específico do carrinho.
-     * Essencial para listar "X-Tudo + Bacon + Ovo" na UI.
+     * Busca todos os adicionais de um item específico do PEDIDO.
      */
-    @Query("SELECT * FROM OrderItemAddon WHERE cart_item_id = :cartItemId")
-    fun getAddonsByCartItem(cartItemId: Int): Flow<List<OrderItemAddonEntity>>
+    @Query("SELECT * FROM order_item_addon WHERE order_item_id = :orderItemId")
+    fun getAddonsByOrderItem(orderItemId: Int): Flow<List<OrderItemAddonEntity>>
 
     /**
-     * Versão síncrona para cálculos rápidos ou Worker.
+     * Versão síncrona.
      */
-    @Query("SELECT * FROM OrderItemAddon WHERE cart_item_id = :cartItemId")
-    suspend fun getAddonsByCartItemSync(cartItemId: Int): List<OrderItemAddonEntity>
+    @Query("SELECT * FROM order_item_addon WHERE order_item_id = :orderItemId")
+    suspend fun getAddonsByOrderItemSync(orderItemId: Int): List<OrderItemAddonEntity>
 
     /**
-     * Calcula o valor total apenas dos adicionais de um item.
+     * Calcula o valor total dos adicionais de um item do pedido.
      */
-    @Query("SELECT SUM(quantity * price_delta_cents) FROM OrderItemAddon WHERE cart_item_id = :cartItemId")
-    fun getTotalAddonsPriceByItem(cartItemId: Int): Flow<Int?>
+    @Query("""
+        SELECT SUM(quantity * price_delta_cents)
+        FROM order_item_addon
+        WHERE order_item_id = :orderItemId
+    """)
+    fun getTotalAddonsPriceByOrderItem(orderItemId: Int): Flow<Int?>
 
     // --- Limpeza ---
 
     /**
-     * Remove todos os adicionais de um item.
-     * Útil se o usuário quiser "limpar customizações" do produto.
+     * Remove todos os adicionais de um item do pedido.
      */
-    @Query("DELETE FROM OrderItemAddon WHERE cart_item_id = :cartItemId")
-    suspend fun deleteAllAddonsFromItem(cartItemId: Int)
+    @Query("DELETE FROM order_item_addon WHERE order_item_id = :orderItemId")
+    suspend fun deleteAllAddonsFromOrderItem(orderItemId: Int)
 }
