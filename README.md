@@ -17,7 +17,7 @@ Diferente de sistemas genéricos, o TruckPay foi construído com a filosofia **s
 ### 🎯 Principais Diferenciais
 * **Fluxo de Venda Simplificado:** Interface otimizada para o "corre" do dia a dia, com componentes grandes e de fácil toque.
 * **Pagamentos Integrados:** Suporte nativo para transações via cartão (mPOS) e PIX.
-* **Domínio de Hardware:** Integração profunda via SDK com terminais POS e comunicação direta com impressoras térmicas (**protocolo ESC/POS**).
+* **Domínio de Hardware:** Integração profunda via API com terminais POS e comunicação direta com impressoras térmicas (**protocolo ESC/POS**).
 * **Resiliência:** Preparado para operar de forma eficiente mesmo com instabilidade de conexão.
 * **Gestão Real-time:** Acompanhamento de transações e histórico de vendas direto no dispositivo.
 
