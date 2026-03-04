@@ -47,18 +47,36 @@ Neste vídeo, demonstramos a transição fluida do carrinho para a seleção de 
 [🎬 Clique aqui para ver o vídeo da demonstração](https://drive.google.com/file/d/1YT-CpYJTgOOu76SIckvejt8d6mSGxmGi/view?usp=sharing)
 
 ### 🖼️ Interface e UX
-<img src="https://lh3.googleusercontent.com/d/16rzBV_6bYhe-nab-ygGBN6Qtf36NluOt" width="300px" alt="Tela Iniciasl">
-
-<img src="https://lh3.googleusercontent.com/d/1JfMHCNDJ8TU-IynqT_Z_5j0EneKfIxIb" width="300px" alt="Tela de Menu">
-
-<img src="https://lh3.googleusercontent.com/d/1kBZtmnoEullB2Joe5G0CcBcqR_XRSTJB" width="300px" alt="Tela de Carrinho">
-
-<img src="https://lh3.googleusercontent.com/d/1ZAeddKvY7Ty1yW_ghwltvx_Y7ZeGvA6Q" width="300px" alt="Tela de Carrinho">
-
-<img src="https://lh3.googleusercontent.com/d/1bKWByDo_vhkpKf5h21piD76N_cvsHBG7" width="300px" alt="Tela de Pagamento">
-
-<img src="https://lh3.googleusercontent.com/d/1j0qd-_125LiRB-QyaDA7Gg1uVj9gm3fk" width="300px" alt="Tela de Processamentno">
-
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://lh3.googleusercontent.com/d/16rzBV_6bYhe-nab-ygGBN6Qtf36NluOt" width="200px" alt="Tela Inicial"/><br />
+      <sub><b>Tela Inicial</b></sub>
+    </td>
+    <td align="center">
+      <img src="https://lh3.googleusercontent.com/d/1JfMHCNDJ8TU-IynqT_Z_5j0EneKfIxIb" width="200px" alt="Tela de Menu"/><br />
+      <sub><b>Menu de Produtos</b></sub>
+    </td>
+    <td align="center">
+      <img src="https://lh3.googleusercontent.com/d/1kBZtmnoEullB2Joe5G0CcBcqR_XRSTJB" width="200px" alt="Tela de Carrinho"/><br />
+      <sub><b>Adicionais</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://lh3.googleusercontent.com/d/1ZAeddKvY7Ty1yW_ghwltvx_Y7ZeGvA6Q" width="200px" alt="Carrinho Detalhado"/><br />
+      <sub><b>Carrinho</b></sub>
+    </td>
+    <td align="center">
+      <img src="https://lh3.googleusercontent.com/d/1bKWByDo_vhkpKf5h21piD76N_cvsHBG7" width="200px" alt="Tela de Pagamento"/><br />
+      <sub><b>Pagamento</b></sub>
+    </td>
+    <td align="center">
+      <img src="https://lh3.googleusercontent.com/d/1j0qd-_125LiRB-QyaDA7Gg1uVj9gm3fk" width="200px" alt="Tela de Processamento"/><br />
+      <sub><b>Processando</b></sub>
+    </td>
+  </tr>
+</table>
 
 
 
