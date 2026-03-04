@@ -6,6 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.jesse.sickstech.data.local.entity.OrderEntity
+import com.jesse.sickstech.domain.enums.OrderStatus
+import com.jesse.sickstech.domain.enums.SyncStatus
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrderDAO {
@@ -44,6 +47,21 @@ interface OrderDAO {
         WHERE sync_status != 'SYNCED'
     """)
     suspend fun getPendingSync(): List<OrderEntity>
+
+    @Query("""
+    UPDATE `Order`
+    SET status = :status,
+        sync_status = :syncStatus
+    WHERE order_id = :orderId
+""")
+    suspend fun updateStatus(
+        orderId: Int,
+        status: OrderStatus,
+        syncStatus: SyncStatus
+    )
+
+    @Query("SELECT * FROM `Order` WHERE order_id = :orderId")
+    fun observeOrder(orderId: Int): Flow<OrderEntity>
 
     // limpa tudo (reset local)
     @Query("DELETE FROM `Order`")

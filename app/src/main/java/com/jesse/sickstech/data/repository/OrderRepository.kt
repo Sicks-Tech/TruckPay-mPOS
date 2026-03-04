@@ -4,12 +4,15 @@ import android.content.Context
 import android.util.Log
 import androidx.room.withTransaction
 import com.jesse.sickstech.data.AppDataBase
+import com.jesse.sickstech.data.api.RetrofitHelper.api
 import com.jesse.sickstech.data.local.entity.CartItemAddonsEntity
 import com.jesse.sickstech.data.local.entity.CartItemEntity
 import com.jesse.sickstech.data.local.entity.OrderEntity
 import com.jesse.sickstech.data.local.entity.OrderItemAddonEntity
 import com.jesse.sickstech.data.local.entity.OrderItemEntity
 import com.jesse.sickstech.domain.enums.OrderStatus
+import com.jesse.sickstech.domain.enums.SyncStatus
+import com.jesse.sickstech.domain.mapper.toOrderStatus
 import com.jesse.sickstech.domain.model.Addon
 import com.jesse.sickstech.domain.model.AddonsState
 import com.jesse.sickstech.domain.model.CartItem

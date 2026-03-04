@@ -70,6 +70,15 @@ class DatabaseSeeder(
                     priceCents = 1000,
                     imageUrl = R.drawable.frango,
                     active = true
+                ),
+                ProductEntity(
+                    storeId = store.storeId,
+                    name = "Hamburguer Smash Truck",
+                    description = "Pão, carne, queijo",
+                    productCode = "HT03",
+                    priceCents = 100,
+                    imageUrl = R.drawable.grande,
+                    active = true
                 )
             )
         )
