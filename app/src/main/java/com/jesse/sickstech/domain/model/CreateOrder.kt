@@ -4,5 +4,6 @@ import java.math.BigDecimal
 
 data class CreateOrder(
     val orderId: Int,
-    val total: BigDecimal
+    val total: BigDecimal,
+    val paymentType: String
 )

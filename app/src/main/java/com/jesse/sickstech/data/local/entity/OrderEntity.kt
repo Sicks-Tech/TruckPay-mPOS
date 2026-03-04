@@ -34,6 +34,9 @@ data class OrderEntity(
     @ColumnInfo(name = "order_id")
     val orderId: Int = 0,
 
+    @ColumnInfo(name = "mp_order_id")
+    var mpOrderId: String? = null,
+
     @ColumnInfo(name = "store_id")
     val storeId: Int = 0,
 
@@ -44,7 +47,7 @@ data class OrderEntity(
     val totalCents: Int = 0,
 
     @ColumnInfo(name = "status")
-    val status: OrderStatus = OrderStatus.OPEN,
+    var status: OrderStatus = OrderStatus.OPEN,
 
     @ColumnInfo(name = "created_at")
     val createdAt: Long = System.currentTimeMillis(),

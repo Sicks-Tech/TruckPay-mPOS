@@ -10,9 +10,15 @@ import com.jesse.sickstech.data.local.entity.CartItemEntity
 import com.jesse.sickstech.data.local.entity.OrderEntity
 import com.jesse.sickstech.data.local.entity.OrderItemAddonEntity
 import com.jesse.sickstech.data.local.entity.OrderItemEntity
+import com.jesse.sickstech.data.model.order.Config
+import com.jesse.sickstech.data.model.order.CreateOrderResult
+import com.jesse.sickstech.data.model.order.OrderRequest
+import com.jesse.sickstech.data.model.order.Payment
+import com.jesse.sickstech.data.model.order.PaymentMethodConfig
+import com.jesse.sickstech.data.model.order.PointConfig
+import com.jesse.sickstech.data.model.order.Transactions
+import com.jesse.sickstech.data.model.pos.OrderConfig
 import com.jesse.sickstech.domain.enums.OrderStatus
-import com.jesse.sickstech.domain.enums.SyncStatus
-import com.jesse.sickstech.domain.mapper.toOrderStatus
 import com.jesse.sickstech.domain.model.Addon
 import com.jesse.sickstech.domain.model.AddonsState
 import com.jesse.sickstech.domain.model.CartItem
@@ -21,6 +27,7 @@ import com.jesse.sickstech.domain.model.SelectedAddon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 /*
 deve lhe dar com order/orderItem/payment/transaction
@@ -68,7 +75,6 @@ class OrderRepository private constructor(context: Context) {
     }
 
 
-
 //    fun getCartItems(accountId: Int): Flow<List<CartItem>> {
 //        // 1. Chamamos o DAO que retorna a relação (CartItem + Product)
 //        return cartItem.getCartWithProduct(accountId).map { list ->
@@ -96,7 +102,8 @@ class OrderRepository private constructor(context: Context) {
                     productId = full.cartItemWithProduct.cartItem.productId,
                     productName = full.cartItemWithProduct.product.name,
                     productCode = full.cartItemWithProduct.product.productCode,
-                    productPrice = full.cartItemWithProduct.product.priceCents.toBigDecimal().movePointLeft(2),
+                    productPrice = full.cartItemWithProduct.product.priceCents.toBigDecimal()
+                        .movePointLeft(2),
                     quantity = full.cartItemWithProduct.cartItem.quantity,
                     // Mapeando os addons que vieram do banco
                     selectedAddons = full.addons.map { a ->
@@ -131,10 +138,11 @@ class OrderRepository private constructor(context: Context) {
 
     suspend fun createOrderFromCart(
         accountId: Int,
-        storeId: Int
-    ): CreateOrder {
+        storeId: Int,
+        paymentType: String
+    ): CreateOrderResult{
 
-        return database.withTransaction {
+        val localOrder = database.withTransaction {
 
             val cartItemsList = cartItem.getCartFullDetailsList(accountId)
 
@@ -203,9 +211,65 @@ class OrderRepository private constructor(context: Context) {
 
             CreateOrder(
                 orderId = orderId,
-                total = total
+                total = total,
+                paymentType = paymentType
             )
+
         }
+
+        // 2️⃣ AQUI FORA da transaction você chama o backend
+        val response = api.createOrder(
+            OrderRequest(
+                externalReference = localOrder.orderId.toString(),
+                transactions = Transactions(
+                    payments = listOf(
+                        Payment(
+                            amount = localOrder.total
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .toPlainString()
+                        )
+                    )
+                ),
+                config = Config(
+                    point = PointConfig(
+                        terminalId = OrderConfig.TERMINAL_ID
+                    ),
+                    paymentMethod = PaymentMethodConfig(
+                        defaultType = paymentType,
+                        defaultInstallments = null,
+                        installmentsCost = null
+                    )
+                )
+            )
+        )
+
+        if (!response.isSuccessful) {
+            throw Exception("Erro ao enviar para maquininha")
+        }
+
+
+        val mpId = response.body()?.id
+            ?: throw Exception("Mercado Pago não retornou ID")
+
+        if (response.isSuccessful) {
+
+            Log.d("OrderRepo", "MP ID: $mpId")
+
+            mpId.let { mpIdValue ->
+
+                val order = database.orderDAO().getById(localOrder.orderId)
+
+                order?.let { entity ->
+                    entity.mpOrderId = mpIdValue
+                    database.orderDAO().update(entity)
+                }
+            }
+        }
+
+        return CreateOrderResult(
+            localOrderId = localOrder.orderId,
+            mpOrderId = mpId
+        )
     }
 
 

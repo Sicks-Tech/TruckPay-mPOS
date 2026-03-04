@@ -21,6 +21,7 @@ data class Payment(
 )
 
 data class Config(
+    @SerializedName("point")
     val point: PointConfig,
 
     @SerializedName("payment_method")

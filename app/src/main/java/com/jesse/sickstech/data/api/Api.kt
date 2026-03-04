@@ -18,6 +18,7 @@ interface Api {
 
     @GET("v1/orders/{id}")
     suspend fun getOrder(
-        @Path("id") orderId: Int
-    ): OrderResponse
+        @Path("id") orderId: String
+    ): Response<OrderResponse>
+
 }

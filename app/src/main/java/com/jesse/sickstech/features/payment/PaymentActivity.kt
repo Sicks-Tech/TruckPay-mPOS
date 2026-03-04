@@ -73,13 +73,15 @@ class PaymentActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         try {
 
-                            val orderId = viewModel.pagar(
+                            val result = viewModel.pagar(
                                 accountId = 1,
                                 storeId = 1,
-                                paymentType = OrderConfig.DEBIT_CARD
+                                paymentType = OrderConfig.DEBIT_CARD ,
                             )
 
-                            openProcessing(card.tag.toString(), orderId)
+
+                            openProcessing(card.tag.toString(), result.mpOrderId)
+
 
                         } catch (e: Exception) {
                             Log.e("Payment", "Erro ao pagar: ${e.message}")
@@ -93,9 +95,10 @@ class PaymentActivity : AppCompatActivity() {
 
     }
 
-    fun openProcessing(type : String , orderId : Int){
+    fun openProcessing(type : String , mpOrderId : String){
         val intent = Intent(this, PaymentProcessActivity::class.java)
         intent.putExtra("payment_method", type)
+        intent.putExtra("MP_ORDER_ID", mpOrderId)
         startActivity(intent)
     }
 }

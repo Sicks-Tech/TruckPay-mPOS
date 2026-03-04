@@ -33,6 +33,9 @@ interface OrderDAO {
         status: String
     ): OrderEntity?
 
+    @Query("SELECT * FROM `Order` WHERE order_id = :orderId LIMIT 1")
+    suspend fun getById(orderId: Int): OrderEntity?
+
     // histórico de pedidos
     @Query("""
         SELECT * FROM `Order`
@@ -62,6 +65,12 @@ interface OrderDAO {
 
     @Query("SELECT * FROM `Order` WHERE order_id = :orderId")
     fun observeOrder(orderId: Int): Flow<OrderEntity>
+
+    @Query("SELECT * FROM `Order` WHERE mp_order_id = :mpOrderId LIMIT 1")
+    fun observeByMpOrderId(mpOrderId: String): Flow<OrderEntity?>
+
+    @Query("SELECT * FROM `Order` WHERE mp_order_id = :mpOrderId LIMIT 1")
+    suspend fun getByMpOrderId(mpOrderId: String): OrderEntity?
 
     // limpa tudo (reset local)
     @Query("DELETE FROM `Order`")

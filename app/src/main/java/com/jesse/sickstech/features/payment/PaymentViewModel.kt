@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jesse.sickstech.data.api.RetrofitHelper.api
 import com.jesse.sickstech.data.model.order.Config
+import com.jesse.sickstech.data.model.order.CreateOrderResult
 import com.jesse.sickstech.data.model.order.OrderRequest
 import com.jesse.sickstech.data.model.order.Payment
 import com.jesse.sickstech.data.model.order.PaymentMethodConfig
@@ -12,6 +13,7 @@ import com.jesse.sickstech.data.model.order.PointConfig
 import com.jesse.sickstech.data.model.order.Transactions
 import com.jesse.sickstech.data.model.pos.OrderConfig
 import com.jesse.sickstech.data.repository.OrderRepository
+import com.jesse.sickstech.domain.model.CreateOrder
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -30,44 +32,8 @@ class PaymentViewModel(
             initialValue = BigDecimal.ZERO
         )
 
-    suspend fun pagar(
-        accountId: Int,
-        storeId: Int,
-        paymentType: String
-    ): Int {
-
-        val created = orderRepository
-            .createOrderFromCart(accountId, storeId)
-
-        val request = OrderRequest(
-            externalReference = created.orderId.toString(),
-            transactions = Transactions(
-                payments = listOf(
-                    Payment(
-                        amount = created.total
-                            .setScale(2)
-                            .toString()
-                    )
-                )
-            ),
-            config = Config(
-                point = PointConfig(
-                    terminalId = OrderConfig.TERMINAL_ID
-                ),
-                paymentMethod = PaymentMethodConfig(
-                    defaultType = paymentType,
-                    defaultInstallments = null,
-                    installmentsCost = null
-                )
-            )
-        )
-
-        val response = api.createOrder(request)
-
-        if (!response.isSuccessful) {
-            throw Exception("Erro ao enviar para maquininha")
-        }
-
-        return created.orderId
+    suspend fun pagar( accountId: Int,
+   storeId: Int, paymentType: String): CreateOrderResult {
+        return orderRepository.createOrderFromCart(accountId , storeId, paymentType)
     }
 }

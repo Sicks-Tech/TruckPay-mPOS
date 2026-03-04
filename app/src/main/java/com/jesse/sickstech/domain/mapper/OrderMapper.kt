@@ -2,10 +2,12 @@ package com.jesse.sickstech.domain.mapper
 
 import com.jesse.sickstech.domain.enums.OrderStatus
 
-fun String.toOrderStatus(): OrderStatus {
-    return when (this) {
-        "PAID" -> OrderStatus.PAID
-        "CANCELED" -> OrderStatus.CANCELED
+fun mapMpStatusToOrderStatus(mpStatus: String): OrderStatus {
+    return when (mpStatus.lowercase()) {
+        "pending" -> OrderStatus.PENDING
+        "processed" -> OrderStatus.PROCESSED
+        "canceled" -> OrderStatus.CANCELED
+        "failed" -> OrderStatus.FAILED
         else -> OrderStatus.OPEN
     }
 }
