@@ -35,6 +35,37 @@ Seguimos um padrão de desenvolvimento rigoroso para garantir que o software sej
 
 ---
 
+
+## 📸 Demonstração em Ação
+
+Aqui você pode ver o fluxo real do software, desde a montagem do pedido até a comunicação direta com o hardware de pagamento.
+
+### 🎥 Fluxo de Checkout e Conexão mPOS
+Neste vídeo, demonstramos a transição fluida do carrinho para a seleção de pagamento e o acionamento automático da maquininha via API:
+
+[Clique aqui para ver o vídeo ou insira o player abaixo]
+[🎬 Clique aqui para ver o vídeo da demonstração](https://drive.google.com/file/d/1YT-CpYJTgOOu76SIckvejt8d6mSGxmGi/view?usp=sharing)
+
+### 🖼️ Interface e UX
+<img src="https://lh3.googleusercontent.com/d/16rzBV_6bYhe-nab-ygGBN6Qtf36NluOt" width="300px" alt="Tela Iniciasl">
+
+<img src="https://lh3.googleusercontent.com/d/1JfMHCNDJ8TU-IynqT_Z_5j0EneKfIxIb" width="300px" alt="Tela de Menu">
+
+<img src="https://lh3.googleusercontent.com/d/1kBZtmnoEullB2Joe5G0CcBcqR_XRSTJB" width="300px" alt="Tela de Carrinho">
+
+<img src="https://lh3.googleusercontent.com/d/1ZAeddKvY7Ty1yW_ghwltvx_Y7ZeGvA6Q" width="300px" alt="Tela de Carrinho">
+
+<img src="https://lh3.googleusercontent.com/d/1bKWByDo_vhkpKf5h21piD76N_cvsHBG7" width="300px" alt="Tela de Pagamento">
+
+<img src="https://lh3.googleusercontent.com/d/1j0qd-_125LiRB-QyaDA7Gg1uVj9gm3fk" width="300px" alt="Tela de Processamentno">
+
+
+
+
+> **Nota Técnica:** A conexão com a maquininha é via API mercado pago
+
+---
+
 ## 🏢 Desenvolvido pela Sicks Tech
 
 A **Sicks Tech** é uma software house especializada exclusivamente no ecossistema **Android**. Nos posicionamos como uma boutique de software: valorizamos o **Código Limpo**, decisões técnicas conscientes e performance acima de tudo.
