@@ -47,7 +47,7 @@ Neste vídeo, demonstramos a transição fluida do carrinho para a seleção de 
 [🎬 Clique aqui para ver o vídeo da demonstração](https://drive.google.com/file/d/1YT-CpYJTgOOu76SIckvejt8d6mSGxmGi/view?usp=sharing)
 
 ### 🖼️ Interface e UX
-<table>
+<table align="center">
   <tr>
     <td align="center">
       <img src="https://lh3.googleusercontent.com/d/16rzBV_6bYhe-nab-ygGBN6Qtf36NluOt" width="200px" alt="Tela Inicial"/><br />
