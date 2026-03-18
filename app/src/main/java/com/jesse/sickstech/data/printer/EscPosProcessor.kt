@@ -50,7 +50,6 @@ class EscPosProcessor {
     fun obterTextoMockEmBytes(): ByteArray {
         val texto = StringBuilder()
 
-        // Comandos ESC/POS para formatação
         val alinharEsquerda = byteArrayOf(0x1B, 0x61, 0x00)
         val alinharCentro = byteArrayOf(0x1B, 0x61, 0x01)
         val negritoLigado = byteArrayOf(0x1B, 0x45, 0x01)
@@ -58,7 +57,6 @@ class EscPosProcessor {
 
         val cmds = mutableListOf<Byte>()
 
-        // Função auxiliar para jogar o texto na lista de bytes
         fun addText(t: String) {
             cmds.addAll(t.toByteArray().toList())
         }
@@ -66,16 +64,13 @@ class EscPosProcessor {
             cmds.addAll(c.toList())
         }
 
-        // --- MONTANDO O RECIBO ---
-
-        // Cabeçalho (Esquerda)
         addCmd(*alinharEsquerda)
         addText("TAQUARA/RJ/BRASIL\n")
         addText("CNPJ: 69.034.668/0001-56\n")
         addText("Numero de Serie: 68824014\n")
         addText("STONE - CAMISAS GALLEGO\n\n")
 
-        // Título (Centro)
+
         addCmd(*alinharCentro)
         addCmd(*negritoLigado)
         addText("Relatorio Detalhado\n")
@@ -84,12 +79,12 @@ class EscPosProcessor {
         addText("Resumo\n")
         addText("--------------------------------\n")
 
-        // Corpo (Esquerda)
+
         addCmd(*alinharEsquerda)
         addText("De: 05/02/2019 as 00:00\n")
         addText("Ate: 05/04/2019 as 20:15\n\n")
 
-        // Usando espaços manuais para alinhar os valores à direita
+
         addCmd(*negritoLigado)
         addText("Valor Total:           R$ 1500.00\n")
         addCmd(*negritoDesligado)
@@ -100,11 +95,37 @@ class EscPosProcessor {
         addText("Credito:               R$ 600.00\n")
         addText("Voucher:               R$ 100.00\n")
 
-        // Umas quebras de linha no final para o papel sair da impressora
+
         addText("\n\n\n")
 
         return cmds.toByteArray()
     }
+
+    fun textToBytes(text: String): ByteArray {
+        val alinharEsquerda = byteArrayOf(0x1B, 0x61, 0x00)
+        val alinharCentro = byteArrayOf(0x1B, 0x61, 0x01)
+        val negritoLigado = byteArrayOf(0x1B, 0x45, 0x01)
+        val negritoDesligado = byteArrayOf(0x1B, 0x45, 0x00)
+
+        val cmds = mutableListOf<Byte>()
+
+        fun addCmd(vararg c: Byte) { cmds.addAll(c.toList()) }
+
+        fun addText(t: String) { cmds.addAll(t.toByteArray(Charsets.UTF_8).toList()) }
+
+        addCmd(*alinharCentro)
+        addCmd(*negritoLigado)
+        addText("Jesse Burguer\n")
+        addCmd(*negritoDesligado)
+
+        addCmd(*alinharEsquerda)
+        addText(text)
+
+        addText("\n\n\n\n") // Avanço seguro
+
+        return cmds.toByteArray()
+    }
+
 
 
 

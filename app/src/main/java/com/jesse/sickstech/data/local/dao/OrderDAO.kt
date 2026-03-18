@@ -4,10 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.jesse.sickstech.data.local.entity.OrderEntity
 import com.jesse.sickstech.domain.enums.OrderStatus
 import com.jesse.sickstech.domain.enums.SyncStatus
+import com.jesse.sickstech.domain.model.OrderWithItems
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -71,6 +73,10 @@ interface OrderDAO {
 
     @Query("SELECT * FROM `Order` WHERE mp_order_id = :mpOrderId LIMIT 1")
     suspend fun getByMpOrderId(mpOrderId: String): OrderEntity?
+
+    @Transaction
+    @Query("SELECT * FROM `Order` WHERE order_id = :orderId")
+    suspend fun getFullOrder(orderId: Int): OrderWithItems
 
     // limpa tudo (reset local)
     @Query("DELETE FROM `Order`")

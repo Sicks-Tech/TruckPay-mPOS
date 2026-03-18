@@ -131,7 +131,6 @@ class PaymentProcessActivity : AppCompatActivity() {
                                 binding.textViewProcessando.text = "Pagamento Confirmado"
 
                                 if (!reciboJaImpresso) {
-                                    // Marca como impresso IMEDIATAMENTE para evitar concorrência
                                     reciboJaImpresso = true
 
                                     try {
@@ -152,7 +151,7 @@ class PaymentProcessActivity : AppCompatActivity() {
                                                 "PRINT_DEBUG",
                                                 "3. Imagem carregada. Redimensionando..."
                                             )
-                                            val scaledBitmap = bitmap.scale(400, 300, false)
+                                            val scaledBitmap = bitmap.scale(384, 250, false)
 
                                             Log.d(
                                                 "PRINT_DEBUG",
@@ -164,11 +163,23 @@ class PaymentProcessActivity : AppCompatActivity() {
                                                 EscPosProcessor().decodeBitmap(scaledBitmap)
 
                                             Log.d("PRINT_DEBUG", "5. Obtendo texto mockado...")
-                                            val textBytes =
-                                                EscPosProcessor().obterTextoMockEmBytes()
+
+                                            val order = viewModel.getOrderByMpId(orderId)
+
+                                            if (order == null) {
+                                                Log.e(
+                                                    "PRINT_DEBUG",
+                                                    "🔴 ERRO FATAL: Pedido não encontrado!"
+                                                )
+                                                return@collect
+                                            }
+
+//                                            val localOrderIs = order.orderId
 
                                             Log.d("PRINT_DEBUG", "6. Juntando Imagem + Texto...")
-                                            val reciboCompleto = imageBytes + textBytes
+
+                                            val textBytes = viewModel.gerarRecibo(order.orderId)
+
 
                                             Log.d(
                                                 "PRINT_DEBUG",
@@ -196,13 +207,44 @@ class PaymentProcessActivity : AppCompatActivity() {
                                                     "8. Permissão OK! Enviando para o ViewModel imprimir..."
                                                 )
 
-                                                val impresso =
-                                                    viewModel.imprimirRecibo(reciboCompleto)
-
                                                 Log.d(
                                                     "PRINT_DEBUG",
-                                                    "9. Retorno da impressão: $impresso"
+                                                    "Enviando apenas a LOGO primeiro..."
                                                 )
+                                                val logoImprimiu =
+                                                    viewModel.imprimirRecibo(imageBytes)
+
+                                                if (logoImprimiu) {
+                                                    Log.d(
+                                                        "PRINT_DEBUG",
+                                                        "Logo enviada. Aguardando a impressora esvaziar a memória..."
+                                                    )
+
+                                                    delay(4000)
+
+                                                    Log.d(
+                                                        "PRINT_DEBUG",
+                                                        "Enviando o TEXTO do recibo..."
+                                                    )
+                                                    val textoImprimiu =
+                                                        viewModel.imprimirRecibo(textBytes)
+
+                                                    if (textoImprimiu) {
+                                                        Log.d(
+                                                            "PRINT_DEBUG",
+                                                            "Recibo completo impresso com sucesso!"
+                                                        )
+                                                    } else {
+                                                        Log.e(
+                                                            "PRINT_DEBUG",
+                                                            "Erro ao imprimir o texto."
+                                                        )
+                                                    }
+                                                } else {
+                                                    Log.e("PRINT_DEBUG", "Erro ao imprimir a logo.")
+                                                }
+
+
                                             } else {
                                                 Log.e(
                                                     "PRINT_DEBUG",
@@ -211,7 +253,6 @@ class PaymentProcessActivity : AppCompatActivity() {
                                             }
                                         }
                                     } catch (e: Exception) {
-                                        // Se der QUALQUER erro (falta de memória, erro de conversão, etc), vai cair aqui!
                                         Log.e(
                                             "PRINT_DEBUG",
                                             "🔴 CRASH SILENCIOSO CAPTURADO: Erro no bloco de impressão!",
@@ -223,7 +264,7 @@ class PaymentProcessActivity : AppCompatActivity() {
                                         "PRINT_DEBUG",
                                         "10. Aguardando 3 segundos para trocar de tela..."
                                     )
-                                    delay(3000)
+                                    delay(5000)
 
                                     startActivity(
                                         Intent(
@@ -231,6 +272,8 @@ class PaymentProcessActivity : AppCompatActivity() {
                                             ConfirmationActivity::class.java
                                         )
                                     )
+
+                                    delay(1000)
 
                                     finish()
 
@@ -258,7 +301,7 @@ class PaymentProcessActivity : AppCompatActivity() {
                     }
                 }
 
-                // 2️⃣ Polling separado
+
                 launch {
                     while (isActive) {
                         viewModel.checkOrderStatus(id)

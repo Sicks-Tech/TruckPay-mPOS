@@ -10,8 +10,10 @@ import com.jesse.sickstech.core.util.BluetoothDeviceHelper
 import com.jesse.sickstech.data.api.Api
 import com.jesse.sickstech.data.local.dao.OrderDAO
 import com.jesse.sickstech.data.printer.BluetoothPrinterManager
+import com.jesse.sickstech.data.printer.EscPosProcessor
 import com.jesse.sickstech.domain.mapper.mapMpStatusToOrderStatus
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class PaymentProcessViewModel(
     private val api: Api,
@@ -19,6 +21,8 @@ class PaymentProcessViewModel(
     private val bluetoothHelper: BluetoothDeviceHelper,
     private val printerManager: BluetoothPrinterManager
 ) : ViewModel() {
+
+    val LINE_WIDTH = 32
 
     fun observeOrderByMpId(mpOrderId: String) =
         orderDao.observeByMpOrderId(mpOrderId)
@@ -68,6 +72,9 @@ class PaymentProcessViewModel(
         }
     }
 
+    suspend fun getOrderByMpId(mpOrderId: String) =
+        orderDao.getByMpOrderId(mpOrderId)
+
 
     // Nova função para imprimir (é 'suspend' para segurarmos a tela até terminar)
     @SuppressLint("MissingPermission")
@@ -87,4 +94,78 @@ class PaymentProcessViewModel(
             false
         }
     }
+
+
+    fun String.truncate(maxLength: Int): String {
+        return if (this.length <= maxLength) this else this.substring(0, maxLength)
+    }
+
+    fun formatDuoLine(left: String, right: String, width: Int = LINE_WIDTH): String {
+        val spaces = width - left.length - right.length
+        return if (spaces > 0) {
+            left + " ".repeat(spaces) + right
+        } else {
+            "$left $right"
+        }
+    }
+
+    fun formatCurrency(value: Double): String {
+        return String.format(Locale("pt", "BR"), "%.2f", value)
+    }
+
+    suspend fun gerarRecibo(orderId: Int): ByteArray {
+        val order = orderDao.getFullOrder(orderId)
+        val builder = StringBuilder()
+
+        // --- CABEÇALHO ---
+        builder.appendLine("Atendente: Jesse")
+        builder.appendLine("Disp: SERVIDOR")
+        builder.appendLine("-".repeat(LINE_WIDTH))
+
+
+        builder.appendLine("Produto")
+        // Encurtamos um pouco os títulos para caber bem nos 32 chars
+        val rightTitles = formatDuoLine("Vl.un", "Vl.tot", 16)
+        builder.appendLine(formatDuoLine("  Qtd Un", rightTitles))
+        builder.appendLine("-".repeat(LINE_WIDTH))
+
+        // --- ITENS ---
+        order.items.forEach { item ->
+
+
+            val prodName = " ${item.product.name}"
+            builder.appendLine(prodName.truncate(LINE_WIDTH))
+
+
+            val unitPrice = item.product.priceCents / 100.0
+            val totalPrice = (item.item.quantity * item.product.priceCents) / 100.0
+
+            val valUnitStr = formatCurrency(unitPrice)
+            val valTotalStr = formatCurrency(totalPrice)
+
+
+            val leftPart = "  ${item.item.quantity}xUN"
+            val rightPart = "$valUnitStr=$valTotalStr"
+
+            builder.appendLine(formatDuoLine(leftPart, rightPart))
+
+            // Adicionais
+            item.addonEntities.forEach { addon ->
+                val addonName = " + Add ${addon.addonId} x${addon.quantity}"
+                builder.appendLine(addonName.truncate(LINE_WIDTH))
+            }
+        }
+
+        builder.appendLine("-".repeat(LINE_WIDTH))
+
+        // --- TOTAL ---
+        val total = order.order.totalCents / 100.0
+        builder.appendLine(formatDuoLine("TOTAL:", "R$ " + formatCurrency(total)))
+
+        builder.appendLine("\nObrigado!")
+
+        return EscPosProcessor().textToBytes(builder.toString())
+    }
+
+
 }
