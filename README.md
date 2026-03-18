@@ -44,7 +44,7 @@ Aqui você pode ver o fluxo real do software, desde a montagem do pedido até a 
 Neste vídeo, demonstramos a transição fluida do carrinho para a seleção de pagamento e o acionamento automático da maquininha via API:
 
 [Clique aqui para ver o vídeo ou insira o player abaixo]
-[🎬 Clique aqui para ver o vídeo da demonstração](https://drive.google.com/file/d/1YT-CpYJTgOOu76SIckvejt8d6mSGxmGi/view?usp=sharing)
+[🎬 Clique aqui para ver o vídeo da demonstração](https://drive.google.com/file/d/1EXmfLDbcPn1k3cm9soRU8dk0lloZaFri/view?usp=sharing)
 
 ### 🖼️ Interface e UX
 <table align="center">
