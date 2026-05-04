@@ -7,6 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jesse.sickstech.R
 import com.jesse.sickstech.core.navigation.BottomBarActivity
 import com.jesse.sickstech.core.security.PinHasher
@@ -20,10 +23,13 @@ class LoginActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
-    private val viewModel : LoginViewModel by viewModels {
-        LoginViewModelFactory(applicationContext)
+
+    private val auth by lazy{
+        FirebaseAuth.getInstance()
     }
 
+    private lateinit var email: String
+    private lateinit var password: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,29 +40,65 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-       viewModel.state.observe(this){ state ->
-           when (state) {
-               is LoginState.Idle -> {}
-               is LoginState.Loading -> {
-                   Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
-               }
-               is LoginState.Success -> {
-                   val intent = Intent(this, BottomBarActivity::class.java)
-                   intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                   startActivity(intent)
-               }
-               is LoginState.Error -> {
-                   Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
-               }
-           }
-       }
-
         with(binding){
             buttonLogin.setOnClickListener {
-                viewModel.login(editTextPin.text.toString())
+                if (validarCampos()) {
+                    logarUsuario()
+                }
+            }
+        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        verificarUsuarioLogado()
+    }
+
+
+    fun logarUsuario() {
+        auth.signInWithEmailAndPassword(
+            email, password
+        ).addOnSuccessListener {
+            Toast.makeText(this, "Logado com sucesso!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, BottomBarActivity::class.java))
+        }.addOnFailureListener { error ->
+            try {
+                throw error
+            } catch (erroUserInvalido: FirebaseAuthInvalidUserException) {
+                Toast.makeText(this, "Email invalido", Toast.LENGTH_SHORT).show()
+            }catch (erroCredencialInvalida: FirebaseAuthInvalidCredentialsException) {
+                Toast.makeText(this, "Senha invalida", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    private fun verificarUsuarioLogado() {
+        val userAtual = auth.currentUser
+        if(userAtual != null){
+            startActivity(Intent(this, BottomBarActivity::class.java))
+        }
+    }
 
+    fun validarCampos(): Boolean {
+        email = binding.editTextEmail.text.toString()
+        password = binding.editTextPassword.text.toString()
+
+        if (email.isNotEmpty()) {
+            binding.tILEmailLogin.error = null
+
+            if (password.isNotEmpty()) {
+                binding.tILPasswordLogin.error = null
+                return true
+            } else {
+                binding.tILPasswordLogin.error = "Informe a senha"
+                return false
+            }
+
+        } else {
+            binding.tILEmailLogin.error = "Informe o email"
+            return false
+        }
+
+    }
 }
