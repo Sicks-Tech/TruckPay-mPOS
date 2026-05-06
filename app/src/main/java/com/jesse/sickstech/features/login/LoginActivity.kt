@@ -52,7 +52,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        verificarUsuarioLogado()
+//        verificarUsuarioLogado()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        auth.signOut()
     }
 
 
